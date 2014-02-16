@@ -14,6 +14,7 @@ class dataIteratorObj implements Iterator {
 	public function rewind() {
 		$this->data = $this->orgin;
 		$this->next();
+		$this->key = 0;
 	}
 	
 	public function key() {
