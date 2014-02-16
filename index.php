@@ -13,8 +13,10 @@ mysqlObj::gi()->newConnection()->setDatabase('test_source');
 $query = 'SELECT * FROM data';
 	var_dump($query);
 
-foreach(mysqlObj::multipleRows($query) as $pk => $row) {
-	var_dump($row);
+$res = mysqlObj::multipleRows($query);
+echo 'Returned '. $res->count() .' rows<hr />';
+foreach($res as $pk => $row) {
+	var_dump($pk,$row);
 	echo 'echo $row->title; '.$row->title;
 }
 

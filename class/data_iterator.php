@@ -2,17 +2,15 @@
 
 class dataIteratorObj implements Iterator {
 	
-	private $orgin;
-	private $data;
+	protected $data;
 	protected $key = 0;
 	protected $current;
 
 	public function __construct($data) {
-		$this->orgin = $data;
+		$this->data = $data;
 	}
 	
 	public function rewind() {
-		$this->data = $this->orgin;
 		$this->next();
 		$this->key = 0;
 	}

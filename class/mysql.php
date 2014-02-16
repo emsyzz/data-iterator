@@ -2,7 +2,7 @@
 
 class mysqlObj {
 	
-	/*-< Singleton methods >-*/
+	/*-< Singleton definition >-*/
 
 	private static $__instance = null;
 	
