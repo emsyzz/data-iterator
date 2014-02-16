@@ -39,26 +39,28 @@ class mysqlObj {
 	}
 	
 	public function getData() {
-		if($this->__response) {
-			return $this->__response;
+		if($response = $this->__response) {
+			$this->__response = null;
+			return $response;
 		}
 		return false;
 	}
 	
 	public function exec($query) {
-		if($query) {
-			$this->__response = mysql_query($query);
+		if($query && $response = mysql_query($query)) {
+			$this->__response = $response;
+			return true;
 		}
-		return $this;
+		return false;
 	}
 	
 	
 	/*-< Public methods >-*/
 	
 	public static function multipleRows($query) {
-		if($self = self::gi()->exec($query)->getData()) {
-			$iterator = new dataResponse($self);
-			return $iterator;
+		$self = self::gi();
+		if($self->exec($query)) {
+			return new dataResponse($self->getData());
 		}
 		return array();
 	}
