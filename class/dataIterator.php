@@ -30,7 +30,7 @@ class dataResponseIterator implements Iterator {
 	}
 
 	public function current() {
-		return new dataObj($this->current);
+		return $this->current;
 	}
 	
 	public function next() {
