@@ -60,7 +60,7 @@ class mysqlObj {
 	public static function multipleRows($query) {
 		$self = self::gi();
 		if($self->exec($query)) {
-			return new dataResponse($self->getData());
+			return new dataResponseIterator($self->getData());
 		}
 		return array();
 	}
