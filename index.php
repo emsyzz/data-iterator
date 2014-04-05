@@ -16,10 +16,11 @@ $query = 'SELECT * FROM data';
 $res = mysqlObj::multipleRows($query);
 echo 'Returned '. $res->count() .' rows<hr />';
 foreach($res->getInstance('test') as $pk => $row) {
-	var_dump($pk,$row);
+    if(!$row->tags) $row->tags = array('SF');
+    var_dump($row->tags);
 	echo 'echo $row->title;<br />&nbsp;&nbsp;&nbsp;'. $row->title .'<br />';
 	echo 'echo $row->title();<br />&nbsp;&nbsp;&nbsp;'. $row->title() .'<br />';
-	echo 'echo $row->title(\'bold\');<br />&nbsp;&nbsp;'. $row->title('bold') .'<br />';
+	echo 'echo $row->title(\'bold\');<br />&nbsp;&nbsp;'. $row->title('bold') .'<hr />';
 }
 
-echo '<hr />'. round(microtime() - $start,3);
+echo round(microtime() - $start, 3);

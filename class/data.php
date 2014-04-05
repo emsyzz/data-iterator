@@ -4,45 +4,73 @@ class dataObj extends stdClass {
 
 	/** Protected properties *************************************************/
 
-	protected $__data = array();
-	protected $__func = array();
-	protected $__events = array();
+    /** Object property values
+     * @var array */
+    protected $__data = array();
+    /** Object user methods
+     * @var Closure[] */
+    protected $__func = array();
+    /** Object event state
+     * @var array */
+    protected $__events = array();
 	
 	
 	/** Magic methods **/
-	
-	public function __construct($data, $func = array(), $events = array()) {
+
+    /**
+     * @param array $data
+     * @param Closure[] $func
+     * @param array $events
+     */
+    public function __construct(array $data, $func = array(), $events = array()) {
 		$this->__data = $data;
 		$this->__func = $func;
 		$this->__events = $events;
 	}
-	
-	public function __call($name, $arg) {
+
+    /**
+     * @param String $name
+     * @param array $arg
+     * @return mixed|null
+     */
+    public function __call($name, $arg) {
 		if($this->__issetMethod($name)) {
 			return $this->__callUserMethod($name, $arg);
 		} elseif($this->__issetProperty($name)) {
 			if(!empty($arg) && $this->__issetMethod($arg[0] . ucfirst($name))) {
 				return $this->__callUserMethod($arg[0] . ucfirst($name), array());
 			} else {
-				if($this->__issetPropEvent('get',$name) && !$this->__isRecursivePropEvent('get',$name))
-					return $this->__triggerPropEvent('get', $name);
+				if($this->__issetPropEvent('call',$name) && !$this->__isRecursivePropEvent('call',$name))
+					return $this->__triggerPropEvent('call', $name);
 				else
 					return $this->__getPropValue($name);
 			}
 		}
 		return null;
 	}
-	
-	public function __set($name, $value) {
+
+    /**
+     * @param String $name
+     * @param mixed $value
+     * @return mixed
+     */
+    public function __set($name, $value) {
 		if($this->__issetPropEvent('set',$name) && !$this->__isRecursivePropEvent('set',$name)) {
 			$value = $this->__triggerPropEvent('set', $name, array(1=>$value));
 		}
 		return $this->__data[$name] = $value;
 	}
-	
-	public function __get($name) {
+
+    /**
+     * @param String $name
+     * @return mixed|null
+     */
+    public function __get($name) {
 		if($this->__issetProperty($name)) {
-			return $this->__getPropValue($name);
+            if($this->__issetPropEvent('get',$name) && !$this->__isRecursivePropEvent('get',$name))
+                return $this->__triggerPropEvent('get', $name);
+            else
+                return $this->__getPropValue($name);
 		}
 		return null;
 	}

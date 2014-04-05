@@ -37,8 +37,11 @@ class mysqlObj {
 		mysql_select_db($databaseName,$this->__connection);
 		return $this;
 	}
-	
-	public function getData() {
+
+    /**
+     * @return bool|null|resource
+     */
+    public function getData() {
 		if($response = $this->__response) {
 			$this->__response = null;
 			return $response;
@@ -49,9 +52,10 @@ class mysqlObj {
 	public function exec($query) {
 		if($query && $response = mysql_query($query)) {
 			$this->__response = $response;
-			return true;
+            return true;
+		} else {
+			die(mysql_error());
 		}
-		return false;
 	}
 	
 	
@@ -63,6 +67,14 @@ class mysqlObj {
 			return new dataResponseIterator($self->getData());
 		}
 		return array();
+	}
+	
+	public static function singleRow($query) {
+		$self = self::gi();
+		if($self->exec($query) && $data = mysql_fetch_assoc($self->getData())) {
+			return new dataObj($data);
+		}
+		return false;
 	}
 
 }
